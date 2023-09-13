@@ -26,7 +26,10 @@ public class CourseRetriever {
     private static void retrieveCourses(String authorId) {
         LOG.info("Retrieving courses for author '{}'", authorId);
         CourseRetrievalService courseRetrievalService = new CourseRetrievalService();
-        List<PluralSightCourse> coursesToStore = courseRetrievalService.getCoursesFor(authorId);
+        List<PluralSightCourse> coursesToStore = courseRetrievalService.getCoursesFor(authorId)
+                .stream()
+                .filter(course -> !course.isRetired())
+                .toList();
         LOG.info("Retrieved the following {} courses {}", coursesToStore.size(), coursesToStore);
     }
 }
